@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Rround and Round</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<body>
+<script>
+function reverseArray(array){
+	var reversed = [];
+  	for (var i = array.length - 1; i >= 0; i--) {
+	    	//can be replaced by builtin function array.push()
+	    	reversed = [...reversed, ...[array[i]]]
+    	}
+  	return reversed
+}
+
+function sliceArray(array, n, m){
+	var sliced = [];
+  	for (var i = 0; i <= array.length - 1; i++) {
+  		if(i>=n && i<=m){
+  			//can be replaced by builtin function array.push()
+    			sliced = [...sliced, ...[array[i]]]
+  		}
+    	}
+    	return sliced
+}
+
+function CircularArrayRotate(arrayOfIntegers, numberOfRotations, rotationDirection='ROTATE_RIGHT'){
+	// For performance enhancement in case of large numberOfRotations
+	if(numberOfRotations >= arrayOfIntegers.length){
+		numberOfRotations = numberOfRotations % arrayOfIntegers.length
+	}
+	if(rotationDirection == 'ROTATE_LEFT'){
+		//can be replaced by builtin function array.reverse()
+	    	arrayOfIntegers = reverseArray(arrayOfIntegers)
+    	}
+	while(numberOfRotations > 0){
+	    	//can be replaced by builtin function array.pop()
+    		element = [arrayOfIntegers[arrayOfIntegers.length-1]]
+    		arrayOfIntegers = sliceArray(arrayOfIntegers, 0, arrayOfIntegers.length-2)
+    	
+	    	//can be replaced by builtin function array.unshift()
+	    	arrayOfIntegers = [...element, ...arrayOfIntegers]
+    	
+        	numberOfRotations = numberOfRotations - 1
+    	}
+    	if(rotationDirection == 'ROTATE_LEFT'){
+    		arrayOfIntegers = reverseArray(arrayOfIntegers)
+        }
+        return arrayOfIntegers  
+    }
+	
+
+function main(){
+	let arrayOfIntegersStr = document.getElementById('arrayOfIntegers').value.replace(' ','');
+	if(arrayOfIntegersStr.length == 0){
+    		arrayOfIntegers = [1,2,3,4,5,6]
+    	}
+    	else{
+    		arrayOfIntegers = arrayOfIntegersStr.split(",");
+    	}
+    	let numberOfRotations = parseInt(document.getElementById('numberOfRotations').value);
+    	let rotationDirection = document.getElementById('rotationDirection').value
+    	let output = CircularArrayRotate(arrayOfIntegers, numberOfRotations, rotationDirection)
+    	document.getElementById('output').innerHTML = output
+}
+
+</script>
+<div>
+    <h1>Array Rotator</h1>
+    <h3>insert numbers comma seperated</h3>
+    <p>Test Example 1,2,3,4,5,6</p>
+    <form>
+        <input type="text" id="arrayOfIntegers" name="arrayOfIntegers"><br><br>
+        <p>Rotation direction</p>
+        <select name="Direction" id="rotationDirection">
+            <option value="ROTATE_RIGHT">ROTATE_RIGHT</option>
+            <option value="ROTATE_LEFT">ROTATE_LEFT</option>
+        </select><br><br>
+        <p>Number of rotations</p>
+        <input type="number" id="numberOfRotations" name="numberOfRotations"><br><br>
+        <input type="button" value="Rotate" onclick="main()">
+    </form>
+
+    <p>Output</p>
+    <h3 id="output"></h3>
+</div>
+
+</body>
+</html>
